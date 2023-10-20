@@ -1,0 +1,28 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity mips_overall is 
+    port (clk,reset: in std_logic;
+			instruction: in std_logic_vector(31 downto 0);
+			result: out std_logic_vector(31 downto 0));
+end mips_overall;
+
+architecture behavior of mips_overall is 
+begin 
+	component reg
+		port(
+
+    process(clk)
+    begin 
+        if rising_edge(clk) then 
+			if reset='1' then
+				data<=(others=>(others=>'0'));
+			elsif store_en='1' then 
+				write_data=>data(to_integer(unsigned(address)));
+			elsif load_en='1' then
+				read_data<=data(to_integer(unsigned(address)));
+			end if;
+        end if;
+    end process;
+end behavior;
